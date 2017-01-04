@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" lang="en">
+
+<h:head>
+
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title>Question Pattern</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="bower_components/bootstrap/dist/css/bootstrap.min.css"
+		rel="stylesheet" />
+
+	<!-- MetisMenu CSS -->
+	<link href="bower_components/metisMenu/dist/metisMenu.min.css"
+		rel="stylesheet" />
+
+	<!-- Timeline CSS -->
+	<link href="dist/css/timeline.css" rel="stylesheet" />
+
+	<!-- Custom CSS -->
+	<link href="dist/css/sb-admin-2.css" rel="stylesheet" />
+
+	<!-- Morris Charts CSS -->
+	<link href="bower_components/morrisjs/morris.css" rel="stylesheet" />
+
+	<!-- Custom Fonts -->
+	<link href="bower_components/font-awesome/css/font-awesome.min.css"
+		rel="stylesheet" type="text/css" />
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</h:head>
+
+<body>
+
+	<div id="wrapper">
+
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation"
+			style="margin-bottom: 0">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="department.xhtml"
+					style="font-size: 25px;"><b>Question Bank</b></a>
+			</div>
+			<!-- /.navbar-header -->
+
+			<h:form>
+				<ul class="nav navbar-top-links navbar-right">
+					<li class="dropdown"><a class="dropdown-toggle"
+						data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
+							<i class="fa fa-caret-down"></i>
+					</a>
+						<ul class="dropdown-menu dropdown-user">
+							<li><h:outputLink value="javascript:void(0)"
+									onclick="PF('dlg').show();" title="login">
+									<i class="fa fa-gear fa-fw"></i> Change
+									Password
+								</h:outputLink></li>
+							<li class="divider"></li>
+							<li><h:commandLink action="#{userMB.logout}">
+									<i class="fa fa-sign-out fa-fw"></i> Logout</h:commandLink></li>
+						</ul> <!-- /.dropdown-user --></li>
+					<!-- /.dropdown -->
+				</ul>
+			</h:form>
+			<h:form>
+				<p:growl id="dialogGrowl" showDetail="true" showSummary="true" />
+				<p:dialog header="Change Password" widgetVar="dlg" resizable="false"
+					showEffect="explode" hideEffect="explode"
+					style="text-align: center">
+					<p:panel id="panel" style="width: 400px;">
+
+						<p:panelGrid columns="2" style="width: 380px;height: 150px">
+							<h:outputLabel for="username" value="Username" />
+							<p:inputText id="username" value="#{userMB.loggedInUserName}"
+								required="true" label="username" readonly="true" />
+
+							<h:outputLabel for="Oldpassword" value="Old Password" />
+							<p:password id="Oldpassword" value="#{userMB.oldPassword}"
+								required="true" label="Newpassword"
+								requiredMessage="Old Password is required" />
+
+							<h:outputLabel for="Newpassword" value="New Password" />
+							<p:password id="Newpassword" value="#{userMB.password}"
+								required="true" label="Newpassword"
+								requiredMessage="New Password is required">
+								<f:validateLength minimum="4" maximum="45" />
+							</p:password>
+
+							<f:facet name="footer">
+								<div style="text-align: center; width: 180px;">
+									<p:commandButton value="Change Password" update="dialogGrowl"
+										actionListener="#{userMB.changePassword}"
+										oncomplete="handleLoginRequest(xhr, status, args)"
+										style="margin-left: 160px; width:180px;margin-top: 2px;" />
+								</div>
+							</f:facet>
+						</p:panelGrid>
+					</p:panel>
+				</p:dialog>
+			</h:form>
+			<!-- /.navbar-top-links -->
+
+			<div class="navbar-default sidebar" role="navigation">
+				<div class="sidebar-nav navbar-collapse">
+					<ul class="nav" id="side-menu">
+						<li><a href="department.xhtml"><i
+								class="fa fa-dashboard fa-fw"></i> Department</a></li>
+						<li><a href="subject.xhtml"><i
+								class="fa fa-dashboard fa-fw"></i> Course</a></li>
+						<li><a href="questiontype.xhtml"><i
+								class="fa fa-dashboard fa-fw"></i> Question Pattern</a></li>
+						<li><a href="questionupload.xhtml"><i
+								class="fa fa-dashboard fa-fw"></i> Upload Questions</a></li>
+						<li><a href="questiondownload.xhtml"><i
+								class="fa fa-dashboard fa-fw"></i> Generate Questions</a></li>
+						<li><a href="adduser.xhtml"><i
+								class="fa fa-dashboard fa-fw"></i> Staffs</a></li>
+					</ul>
+				</div>
+				<!-- /.sidebar-collapse -->
+			</div>
+			<!-- /.navbar-static-side -->
+		</nav>
+
+		<div id="page-wrapper" style="display: block; overflow: auto;">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Question Pattern</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+
+			<!-- /.row -->
+			<div class="row">
+				<h:form id="addQuestionTypeForm">
+					<p:growl id="msgs" showDetail="false" showSummary="false" />
+					<p:growl id="msgsDesc" showDetail="true" showSummary="true" />
+					<div
+						style="height: 150px; width: 400px; left: 23%; top: 25%; position: absolute">
+						<p:panel id="panel" style="width: 450px;">
+							<p:focus context="panel" />
+							<p:panelGrid columns="2">
+								<p:outputLabel for="departmentSelect" value="Department" />
+								<p:selectOneMenu id="departmentSelect"
+									value="#{subMB.departmentId}" required="true"
+									style="width:200px;" requiredMessage="Select a department">
+									<p:ajax listener="#{subMB.getSubjectByDepartmentId}"
+										update="subjectSelect" />
+									<f:selectItem itemLabel="--Select--" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{deptMB.departmentList}"
+										var="department"
+										itemLabel="#{department.departmentName} (#{department.associatedCourse})"
+										itemValue="#{department.departmentId}">
+									</f:selectItems>
+								</p:selectOneMenu>
+
+								<p:outputLabel for="subjectSelect" value="Course" />
+								<p:selectOneMenu id="subjectSelect"
+									value="#{qtypeMB.selectedSubjectId}" required="true"
+									style="width:200px;" requiredMessage="Select a Course">
+									<p:ajax listener="#{qtypeMB.getSelectedSubjectId}" />
+									<p:ajax
+										listener="#{qtypeMB.getQuestiontypeBySelectedSubjectId}"
+										update=":viewQuestionTypeForm:questionTypes" />
+									<f:selectItem itemLabel="--Select--" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{subMB.subjectList}" var="subject"
+										itemLabel="#{subject.subjectName}"
+										itemValue="#{subject.subjectId}">
+									</f:selectItems>
+								</p:selectOneMenu>
+
+								<h:outputLabel for="mark" value="Mark" />
+								<p:inputText value="#{qtypeMB.mark}" id="mark" required="true"
+									requiredMessage="Mark cannot be empty" style="width:200px;">
+								</p:inputText>
+
+								<h:outputLabel for="noOfQues" value="No Of Questions" />
+								<p:inputText value="#{qtypeMB.noOfQuestions}" id="noOfQues"
+									required="true"
+									requiredMessage="No Of Questions cannot be empty"
+									style="width:200px;">
+								</p:inputText>
+
+								<p:outputLabel for="qtype" value="Question Nature" />
+								<p:selectOneMenu id="qtype"
+									value="#{qtypeMB.selectedQuestionType}" required="true"
+									style="width:200px;" requiredMessage="Select a Question Type">
+									<f:selectItem itemLabel="--Select--" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItem itemLabel="MCQ" itemValue="MCQ" />
+									<f:selectItem itemLabel="EITHER_OR" itemValue="EITHER_OR" />
+									<f:selectItem itemLabel="OPEN_CHOICE" itemValue="OPEN_CHOICE" />
+									<f:selectItem itemLabel="CASE_STUDY" itemValue="CASE_STUDY" />
+								</p:selectOneMenu>
+
+								<f:facet name="footer">
+									<div style="text-align: center">
+										<h:commandButton value="Save"
+											action="#{qtypeMB.addQuestionType}"
+											style="width: 100px; margin: 0 0 0 100px;" update="msgs" />
+									</div>
+								</f:facet>
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</h:form>
+
+
+				<div
+					style="position: absolute; position: absolute; top: 25%; left: 60%; width: 430px;">
+					<h:form id="viewQuestionTypeForm">
+						<p:dataTable id="questionTypes" var="questionType"
+							value="#{qtypeMB.questionTypesList}" editable="true"
+							style="margin-bottom:20px">
+							<f:facet name="header">Selected Subject Question Pattern</f:facet>
+
+							<p:ajax event="rowEditCancel" listener="#{qtypeMB.onRowCancel}"
+								update=":addQuestionTypeForm:msgsDesc" />
+							<p:ajax event="rowEdit" listener="#{qtypeMB.onRowEdit}"
+								update=":addQuestionTypeForm:msgsDesc" />
+
+							<p:column headerText="Mark">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{questionType.mark}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{questionType.mark}" style="width:100%"
+											required="true">
+											<f:converter converterId="javax.faces.Float" />
+										</p:inputText>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column headerText="No of Questions">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{questionType.noOfQuestions}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{questionType.noOfQuestions}"
+											style="width:100%" label="Created Date">
+											<f:converter converterId="javax.faces.Float" />
+										</p:inputText>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column headerText="Question type">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{questionType.qType}" />
+									</f:facet>
+									<f:facet name="input">
+										<!-- <p:inputText value="#{questionType.qType}" style="width:100%"
+											label="Created Date">
+											<f:converter converterId="javax.faces.Integer" />
+										</p:inputText> -->
+										<p:selectOneMenu id="qtype" value="#{questionType.qType}"
+											style="width:100%;">
+											<f:selectItem itemLabel="--Select--" itemValue=""
+												noSelectionOption="true" />
+											<f:selectItem itemLabel="MCQ" itemValue="MCQ" />
+											<f:selectItem itemLabel="EITHER_OR" itemValue="EITHER_OR" />
+											<f:selectItem itemLabel="OPEN_CHOICE" itemValue="OPEN_CHOICE" />
+											<f:selectItem itemLabel="CASE_STUDY" itemValue="CASE_STUDY" />
+										</p:selectOneMenu>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="width:32px" headerText="Edit">
+								<p:rowEditor />
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">Delete</f:facet>
+								<h:commandLink value="Delete"
+									action="#{qtypeMB.deleteQuestionType(questionType)}" />
+							</p:column>
+
+						</p:dataTable>
+
+					</h:form>
+				</div>
+			</div>
+		</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+	<!-- Custom Theme JavaScript -->
+	<script src="dist/js/sb-admin-2.js"></script>
+
+</body>
+<script type="text/javascript">
+	function handleLoginRequest(xhr, status, args) {
+		if (args.validationFailed || !args.passwordChanged) {
+			PF('dlg').jq.effect("shake", {
+				times : 5
+			}, 100);
+		} else {
+			PF('dlg').hide();
+			$('#loginLink').fadeOut();
+			window.location.replace("index.xhtml");
+		}
+	}
+</script>
+</html>

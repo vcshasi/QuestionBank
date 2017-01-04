@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" lang="en">
+
+<h:head>
+
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title>Add Staffs</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="bower_components/bootstrap/dist/css/bootstrap.min.css"
+		rel="stylesheet" />
+
+	<!-- MetisMenu CSS -->
+	<link href="bower_components/metisMenu/dist/metisMenu.min.css"
+		rel="stylesheet" />
+
+	<!-- Timeline CSS -->
+	<link href="dist/css/timeline.css" rel="stylesheet" />
+
+	<!-- Custom CSS -->
+	<link href="dist/css/sb-admin-2.css" rel="stylesheet" />
+
+	<!-- Morris Charts CSS -->
+	<link href="bower_components/morrisjs/morris.css" rel="stylesheet" />
+
+	<!-- Custom Fonts -->
+	<link href="bower_components/font-awesome/css/font-awesome.min.css"
+		rel="stylesheet" type="text/css" />
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</h:head>
+
+<body>
+
+	<div id="wrapper">
+
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation"
+			style="margin-bottom: 0">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="department.xhtml"
+					style="font-size: 25px;"><b>Question Bank</b></a>
+			</div>
+			<!-- /.navbar-header -->
+
+						<h:form>
+				<ul class="nav navbar-top-links navbar-right">
+					<li class="dropdown"><a class="dropdown-toggle"
+						data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
+							<i class="fa fa-caret-down"></i>
+					</a>
+						<ul class="dropdown-menu dropdown-user">
+							<li><h:outputLink value="javascript:void(0)"
+									onclick="PF('dlg').show();" title="login">
+									<i class="fa fa-gear fa-fw"></i> Change
+									Password
+								</h:outputLink></li>
+							<li class="divider"></li>
+							<li><h:commandLink action="#{userMB.logout}">
+									<i class="fa fa-sign-out fa-fw"></i> Logout</h:commandLink></li>
+						</ul> <!-- /.dropdown-user --></li>
+					<!-- /.dropdown -->
+				</ul>
+			</h:form>
+			<h:form>
+				<p:growl id="dialogGrowl" showDetail="true" showSummary="true" />
+				<p:dialog header="Change Password" widgetVar="dlg" resizable="false"
+					showEffect="explode" hideEffect="explode" style="text-align: center">
+					<p:panel id="panel" style="width: 400px;">
+
+						<p:panelGrid columns="2" style="width: 380px;height: 150px">
+							<h:outputLabel for="username" value="Username" />
+							<p:inputText id="username" value="#{userMB.loggedInUserName}"
+								required="true" label="username" readonly="true" />
+
+							<h:outputLabel for="Oldpassword" value="Old Password" />
+							<p:password id="Oldpassword" value="#{userMB.oldPassword}"
+								required="true" label="Newpassword"
+								requiredMessage="Old Password is required" />
+
+							<h:outputLabel for="Newpassword" value="New Password" />
+							<p:password id="Newpassword" value="#{userMB.password}"
+								required="true" label="Newpassword"
+								requiredMessage="New Password is required">
+								<f:validateLength minimum="4" maximum="45" />
+							</p:password>
+
+							<f:facet name="footer">
+								<div style="text-align: center; width: 180px;">
+									<p:commandButton value="Change Password" update="dialogGrowl"
+										actionListener="#{userMB.changePassword}"
+										oncomplete="handleLoginRequest(xhr, status, args)"
+										style="margin-left: 160px; width:180px;margin-top: 2px;" />
+								</div>
+							</f:facet>
+						</p:panelGrid>
+					</p:panel>
+				</p:dialog>
+			</h:form>
+			<!-- /.navbar-top-links -->
+
+			<div class="navbar-default sidebar" role="navigation">
+				<div class="sidebar-nav navbar-collapse">
+					<ul class="nav" id="side-menu">
+						<li><a href="department.xhtml"><i
+								class="fa fa-dashboard fa-fw"></i> Department</a></li>
+						<li><a href="subject.xhtml"><i
+								class="fa fa-dashboard fa-fw"></i> Course</a></li>
+						<li><a href="questiontype.xhtml"><i
+								class="fa fa-dashboard fa-fw"></i> Question Pattern</a></li>
+						<li><a href="questionupload.xhtml"><i
+								class="fa fa-dashboard fa-fw"></i> Upload Questions</a></li>
+						<li><a href="questiondownload.xhtml"><i
+								class="fa fa-dashboard fa-fw"></i> Generate Questions</a></li>
+						<li><a href="adduser.xhtml"><i
+								class="fa fa-dashboard fa-fw"></i> Staffs</a></li>
+					</ul>
+				</div>
+				<!-- /.sidebar-collapse -->
+			</div>
+			<!-- /.navbar-static-side -->
+		</nav>
+
+		<div id="page-wrapper" style="display: block; overflow: auto;">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Add Staffs</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+
+			<!-- /.row -->
+			<div class="row">
+				<h:form id="addStaffForm">
+					<p:growl id="msgs" showDetail="false" showSummary="false" />
+					<p:growl id="msgsDesc" showDetail="true" showSummary="true" />
+					<div
+						style="height: 150px; width: 400px; left: 23%; top: 25%; position: absolute">
+						<p:panel style="width: 400px;">
+							<p:panelGrid columns="2">
+								<h:outputLabel for="userNameText" value="User Name" />
+								<p:inputText value="#{userMB.userName}" id="userNameText">
+								</p:inputText>
+								<f:facet name="footer">
+									<div style="text-align: center">
+										<h:commandButton value="Save" action="#{userMB.addUser}"
+											style="width: 100px; margin: 10 0 0 100px;" update="msgs" />
+									</div>
+								</f:facet>
+							</p:panelGrid>
+						</p:panel>
+					</div>
+				</h:form>
+
+				<div
+					style="position: absolute; position: absolute; top: 25%; left: 60%; width: 430px;">
+					<h:form id="viewUsersForm">
+						<p:dataTable id="users" var="user" value="#{userMB.userList}"
+							editable="true" style="margin-bottom:30px" paginator="true"
+							rows="10"
+							paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="5,10,15">
+							<f:facet name="header">
+         Users
+       </f:facet>
+
+							<p:ajax event="rowEditCancel" listener="#{MB.onRowCancel}"
+								update=":addStaffForm:msgsDesc" />
+							<p:ajax event="rowEdit" listener="#{userMB.onRowEdit}"
+								update=":addStaffForm:msgsDesc" />
+
+							<p:column headerText="User Name">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{user.userName}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{user.userName}" style="width:100%" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column style="width:32px" headerText="Edit">
+								<p:rowEditor />
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">Delete</f:facet>
+								<h:commandLink value="Delete"
+									action="#{userMB.deleteUser(user)}" />
+							</p:column>
+
+						</p:dataTable>
+
+					</h:form>
+				</div>
+			</div>
+		</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+	<!-- Custom Theme JavaScript -->
+	<script src="dist/js/sb-admin-2.js"></script>
+
+</body>
+<script type="text/javascript">
+	function handleLoginRequest(xhr, status, args) {
+		if (args.validationFailed || !args.passwordChanged) {
+			PF('dlg').jq.effect("shake", {
+				times : 5
+			}, 100);
+		} else {
+			PF('dlg').hide();
+			$('#loginLink').fadeOut();
+			window.location.replace("index.xhtml");
+		}
+	}
+</script>
+</html>

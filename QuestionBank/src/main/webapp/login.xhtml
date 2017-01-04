@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Question Bank Login</title>
+	<style>
+#login {
+	position: absolute;
+	height: 200px;
+	width: 400px;
+	margin: -80px 0 0 -200px;
+	top: 50%;
+	left: 50%;
+}
+​
+</style>
+</h:head>
+
+<h:body>
+	<div style="text-align: center">
+		<h:graphicImage library="images" name="Logo.jpg"
+			style="width:950px;height:150px; margin: 30 0 0 0px;" />
+	</div>
+
+	<div id="login">
+		<h:form id="loginForm">
+			<p:growl id="msgs" showDetail="false" showSummary="false" />
+			<p:growl id="loginerror" showDetail="true" showSummary="true" />
+			<p:panel id="panel" style="width: 400px; margin: 0px 10px 0px 0px;">
+				<p:focus context="panel" />
+				<p:panelGrid columns="2" style="width: 100%; height:110%; ">
+					<f:facet name="header">
+						<div style="text-align: center">
+							<h:outputLabel value="Question Bank Login"
+								style="margin: 0 auto; font-size: 30px;" />
+						</div>
+					</f:facet>
+					<h:outputLabel for="userName" value="User Name " />
+					<p:inputText value="#{userMB.userName}" id="userName">
+					</p:inputText>
+					<h:outputLabel for="password" value="Password " />
+					<p:password id="password" value="#{userMB.password}">
+					</p:password>
+					<f:facet name="footer">
+						<h:commandButton value="Login" action="#{userMB.authenticate}"
+							style="width: 100px; margin: 0 0 0 170;" update="loginerror" />
+					</f:facet>
+				</p:panelGrid>
+			</p:panel>
+		</h:form>
+	</div>
+</h:body>
+</html>
