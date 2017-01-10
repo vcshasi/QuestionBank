@@ -1,17 +1,18 @@
 # QuestionBank
 
-This is a JAVA based web application which would generate question paper for school/college professionals according to the pattern set for a particaular subject. This application would ease the work of a professor/staff who needs to spend time in preparing the question paper for their subjects. Also the random generation of questions maintains the integrity of the questions generated.
+This is a JAVA based web application which would generate question paper for school/college professionals according to the pattern set for a particular subject. This application would ease the work of a professor/staff who needs to spend time in preparing the question paper for their subjects. Also the random generation of questions maintains the integrity of the questions generated without disclosing it to anyone else.
 
 You can also:
-  - Save questions for a particualr subject to the databse
+  - Save questions only one time for a specific subject for a specific semester and generate question papers multiple times
   - Export Question paper as PDF
-  - Generate random question paper for each subject
-
-This text you see here is *actually* written in Markdown! To get a feel for Markdown's syntax, type some text into the left window and watch the results in the right.
+  - Add Staffs to the portal so that they could upload and generate question paper whenever needed
+  - Customized question pattern for each and every subject
+  - Maintains integrity of the question paper generated as it uses a *Specific Random Logic*
+  - Generate question paper for a specific subject semester wise
 
 ## Technologies Used
 
-Dillinger uses a number of open source projects to work properly:
+This project is developed using number of open source technologies like:
 
 * Java 7
 * PrimeFaces 4.0
@@ -54,7 +55,7 @@ mvn clean install
 
 ### Department Page
 
-![Alt text](/QuestionBank/img/2017-01-10_11h53_54.png?raw=true "Depeartment Page")
+![Alt text](/QuestionBank/img/2017-01-10_11h53_54.png?raw=true "Department Page")
 
 #### Generate Questions Page
 
