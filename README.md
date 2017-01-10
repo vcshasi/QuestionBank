@@ -9,7 +9,7 @@ You can also:
 
 This text you see here is *actually* written in Markdown! To get a feel for Markdown's syntax, type some text into the left window and watch the results in the right.
 
-### Technologies Used
+## Technologies Used
 
 Dillinger uses a number of open source projects to work properly:
 
@@ -24,8 +24,7 @@ Dillinger uses a number of open source projects to work properly:
 * Tomcat 7
 * Eclipse
 
-### Development
-###  Setting up in your Eclipse
+## Development
 
 This project is built on maven. Hence dependencies could be resolved using the following command 
 
@@ -34,39 +33,40 @@ cd QuestionBank
 mvn eclipse:clean eclipse:eclipse
 ```
 
-### DataBase setup
+## DataBase setup
 
 MySQL 5.5 Sever with the following schema file to be available for the application to run
 
 * [qb-db-schema] [db_schema]
 
 
-#### Building
+## Building
 For generating the war to be deployed in Tomct Server, issue the following command
 ```sh
 mvn clean install
 ```
 
-#### QuestionBank at a glance :smiley:
+## QuestionBank at a glance :smiley:
 
-##### Login Page
+### Login Page
 
 ![Alt text](/QuestionBank/img/2017-01-10_11h53_20.png?raw=true "Login Page")
 
-##### Department Page
+### Department Page
 
 ![Alt text](/QuestionBank/img/2017-01-10_11h53_54.png?raw=true "Depeartment Page")
 
-##### Generate Questions Page
+#### Generate Questions Page
 
 ![Alt text](/QuestionBank/img/2017-01-10_11h54_38.png?raw=true "Generate Questions")
 
-##### Change Password Page
+### Change Password Page
 
 ![Alt text](/QuestionBank/img/2017-01-10_11h55_16.png?raw=true "Change Password")
 
 
-**Happy Coding!**
+
+ :smiley: **Happy Coding!** :smiley:
 
 
    [db_schema]: <https://github.com/vcshasi/QuestionBank/blob/master/QuestionBank/database/questionBank_schema.sql>
